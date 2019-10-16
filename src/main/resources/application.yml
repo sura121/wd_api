@@ -1,0 +1,23 @@
+#spring:
+#  profiles: local
+#    active: local
+
+#local 환경
+---
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/weedoctor?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: qufn12
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      format_sql: true
+      generate-ddl: true
+
+
