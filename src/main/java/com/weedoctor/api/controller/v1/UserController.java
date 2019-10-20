@@ -1,5 +1,6 @@
 package com.weedoctor.api.controller.v1;
 
+import com.weedoctor.api.advice.Exception.CUserNotFoundException;
 import com.weedoctor.api.entity.Users;
 import com.weedoctor.api.model.response.CommonResult;
 import com.weedoctor.api.model.response.ListResult;
@@ -10,10 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Api(tags = {"1. User"})
 @RequiredArgsConstructor
@@ -28,6 +26,14 @@ public class UserController {
     @GetMapping(value = "/user")
     public ListResult<Users> findAllUser() {
         return responseService.getListResult(userJpaRepo.findAll());
+    }
+
+    @ApiOperation(value = "회원 단건 조회", notes = "userId로 회원을 조회한다")
+    @GetMapping(value = "/user/{pk}")
+    public SingleResult<Users> findUserById(@ApiParam(value = "회원ID", required = true) @PathVariable int pk,
+                                            @ApiParam(value = "언어", defaultValue = "ko") @RequestParam String lang) {
+        // 결과데이터가 단일건인경우 getBasicResult를 이용해서 결과를 출력한다.
+        return responseService.getSingleResult(userJpaRepo.findById(pk).orElseThrow(CUserNotFoundException::new));
     }
 
     @ApiOperation(value = "회원 추가", notes = "회원을 입력합니다.")
@@ -59,7 +65,7 @@ public class UserController {
 
     @ApiOperation(value = "회원 삭제", notes = "pk값으로 회원을 삭제합니다.")
     @DeleteMapping(value = "/user/{pk}")
-    public CommonResult delete(@ApiParam(value = "회원 번호", required = true) @RequestParam int pk){
+    public CommonResult delete(@ApiParam(value = "회원 번호", required = true) @PathVariable int pk){
         userJpaRepo.delete(userJpaRepo.getOne(pk));
         return responseService.getSuccessResult();
     }

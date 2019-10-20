@@ -19,5 +19,9 @@ spring:
     properties:
       format_sql: true
       generate-ddl: true
+    show_sql: true
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
 
 
