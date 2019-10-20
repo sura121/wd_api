@@ -3,6 +3,7 @@ package com.weedoctor.api.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Builder
 @Entity
@@ -23,6 +24,9 @@ public class Users {
 
     @Column(nullable = true, length = 10)
     private String name;
+
+    @Column
+    private Date removedAt;
 
 
 }
