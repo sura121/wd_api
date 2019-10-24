@@ -1,5 +1,7 @@
 package com.weedoctor.api.advice;
 
+import com.weedoctor.api.advice.Exception.CAuthenticationEntryPointException;
+import com.weedoctor.api.advice.Exception.CEmailSigninFailedException;
 import com.weedoctor.api.advice.Exception.CUserNotFoundException;
 import com.weedoctor.api.model.response.CommonResult;
 import com.weedoctor.api.service.ResponseService;
@@ -43,5 +45,16 @@ public class ExceptionAdvice {
     // code정보, 추가 argument로 현재 locale에 맞는 메시지를 조회합니다.
     private String getMessage(String code, Object[] args) {
         return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+    }
+
+    @ExceptionHandler(CEmailSigninFailedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("emailSignFail.code")), getMessage("emailSigninFailed.msg"));
+    }
+
+    @ExceptionHandler(CAuthenticationEntryPointException.class)
+    public CommonResult authenticationEntryPointException(HttpServletRequest request, CAuthenticationEntryPointException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("entryPointException.code")), getMessage("entryPointException.msg"));
     }
 }
