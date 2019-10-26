@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.AccessDeniedException;
 
 @RequiredArgsConstructor
 @RestControllerAdvice
@@ -50,11 +51,16 @@ public class ExceptionAdvice {
     @ExceptionHandler(CEmailSigninFailedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
-        return responseService.getFailResult(Integer.valueOf(getMessage("emailSignFail.code")), getMessage("emailSigninFailed.msg"));
+        return responseService.getFailResult(Integer.valueOf(getMessage("emailSigninFailed.code")), getMessage("emailSigninFailed.msg"));
     }
 
     @ExceptionHandler(CAuthenticationEntryPointException.class)
     public CommonResult authenticationEntryPointException(HttpServletRequest request, CAuthenticationEntryPointException e) {
         return responseService.getFailResult(Integer.valueOf(getMessage("entryPointException.code")), getMessage("entryPointException.msg"));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+        return responseService.getFailResult(Integer.valueOf(getMessage("accessDenied.code")), getMessage("accessDenied.msg"));
     }
 }

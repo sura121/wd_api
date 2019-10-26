@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.nio.file.AccessDeniedException;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/exception")
@@ -16,4 +18,10 @@ public class ExceptionController {
     public CommonResult entrypointExcetpion() {
         throw new CAuthenticationEntryPointException();
     }
+
+    @GetMapping(value = "/accessdenied")
+    public CommonResult accessdeniedException() throws AccessDeniedException {
+        throw new AccessDeniedException("");
+    }
+
 }

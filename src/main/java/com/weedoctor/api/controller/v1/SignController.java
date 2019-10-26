@@ -33,9 +33,8 @@ public class SignController {
                                        @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
 
         Users user = userJpaRepo.findByUid(id).orElseThrow(CEmailSigninFailedException::new);
-        if(!passwordEncoder.matches(password, user.getPassword())) {
+        if(!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
-        }
 
         return responseService.getSingleResult(jwtTokenProvider.createToken(user.getUsername(), user.getRoles()));
     }

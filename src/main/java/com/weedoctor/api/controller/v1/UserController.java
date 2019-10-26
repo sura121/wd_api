@@ -9,6 +9,8 @@ import com.weedoctor.api.repo.UserJpaRepo;
 import com.weedoctor.api.service.ResponseService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = {"2. User"})
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "v1")
 public class UserController {
 
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserJpaRepo userJpaRepo;
     private final ResponseService responseService;
 
@@ -24,8 +27,10 @@ public class UserController {
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 조회", notes = "모든 회원을 조회한다.")
-    @GetMapping(value = "/user")
+    @GetMapping(value = "/users")
     public ListResult<Users> findAllUser() {
+        logger.info("=====in=======");
+        logger.info(userJpaRepo.findAll().toString());
         return responseService.getListResult(userJpaRepo.findAll());
     }
 
