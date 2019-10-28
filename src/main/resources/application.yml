@@ -4,6 +4,14 @@
 
 #local 환경
 ---
+logging:
+  level:
+    root: warn
+    com.rest.api: info
+  path: /home/ec2-user/weedoctor_api/log
+  file:
+    max-history: 7
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +23,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       format_sql: true
       generate-ddl: true
