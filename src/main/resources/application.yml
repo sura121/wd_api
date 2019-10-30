@@ -14,8 +14,8 @@ logging:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/weedoctor?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://3.133.20.74:3306/weedoctor?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: qufn12
 
@@ -23,7 +23,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       format_sql: true
       generate-ddl: true
